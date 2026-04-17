@@ -1,57 +1,73 @@
+import { useState } from 'react';
+
+
+
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(email, password);
+    setEmail('');
+    setPassword('');
+  }
   return (
     <div className="w-full max-w-md mx-auto">
-      <h1 className="text-2xl font-bold text-center text-gray-800">
+      <h1 className="text-2xl font-bold text-center text-gray-800 mb-8">
         welcome back!
         </h1>
-        <br />
+       
      
-        <p className="text-center text-gray-500">
+        <p className="text-center text-gray-500 mb-8">
           Enter your credentials to acess your account
         </p>
-        <br />
+       
 
         {/* login form */}
-        <form>
-        <label className="block text-gray-700 font-bold">
+        <form onSubmit={handleSubmit}>
+        <label htmlFor="email" className="block text-gray-700 font-bold">
           Email adress:
-          <input 
-          type="text" 
+        </label>
+         <input 
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type="email" 
           className="w-full p-2 border border-gray-300 rounded-md"
           placeholder="email adress" 
           name="email" 
           id="email" />
-        </label>
 
           <span className="flex justify-end mt-2">
             <a href="#" className="text-blue-600 text-sm hover:underline ">
                 Forget password
             </a>
           </span>
-        <label className="block text-gray-700 font-bold">
+        <label htmlFor="password" className="block text-gray-700 font-bold mb-4">
             Password:
-          <input 
+        </label>
+        <input 
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           type="password" 
           className="w-full p-2 border border-gray-300 rounded-md"
           placeholder="password" 
           name="password" 
           id="password" />
-        </label>
-        <br />
+        
 
-        <span className="text-black-500 text-sm">
+        <span className="flex items-center text-sm text-gray-600 mt-2 mb-6">
           <input type="checkbox" className="mr-2" />
           Remember for 30 days
         </span>
-        <br />
-        <br />
+       
 
         <button 
-        className="w-full p-2 bg-[#3A5B22] text-white rounded-md" type="submit">
+        className="w-full p-2 bg-[#3A5B22] text-white rounded-md mt-4" type="submit">
             login
         </button>
       </form>
-      <br />
+    
 
             {/*  */}
       <div className="flex items-center my-4">
