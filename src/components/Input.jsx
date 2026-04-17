@@ -24,7 +24,7 @@ function Input({
       disabled={disabled}
       onChange={onChange}
       value={value}
-      className={`w-full p-2 border border-gray-300 rounded-md ${className}`}
+      className={`w-full p-2 border border-gray-300 rounded-xl ${className}`}
     />
     </div>
    

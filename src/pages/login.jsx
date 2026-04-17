@@ -1,21 +1,46 @@
 import { useState } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
+import SocialMedia from '../components/SocialMedia';
+import AuthLink from '../components/AuthLink';
+import Divider from '../components/Divider';
+import LoginImage from '../components/LoginImage';
+
+
+
+
+
 
 
 export default function LoginPage(){
+
   return(
-    <>
-          <Login/>
-          <SocialMedia/>
-          <SignUp/>
-    </>
+   <div className="flex flex-col md:flex-row min-h-screen">
+
+  {/* LEFT SIDE - FORM */}
+  <div className="md:w-1/2 flex items-center justify-center">
+    <div className="w-full max-w-md space-y-6">
+      <LoginForm />
+      <Divider />
+      <SocialMedia />
+      <AuthLink 
+        text="Don't have an account?" 
+        linkText="Sign up" 
+        href="/register"
+      />
+    </div>
+  </div>
+
+  {/* RIGHT SIDE - IMAGE */}
+  <div className="md:w-1/2 flex items-center justify-center bg-gray-100">
+    <LoginImage />
+  </div>
+
+</div>
   );
 }
 
-function Login() {
+function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -26,13 +51,13 @@ function Login() {
     setPassword('');
   }
   return (
-    <div className="w-full max-w-md mx-auto">
-      <h1 className="text-2xl font-bold text-center text-gray-800 mb-8">
+    <div className="w-full max-w-md mx-auto space-y-6">
+      <h1 className="text-2xl font-bold text-center text-gray-800 ">
         Welcome back!
         </h1>
        
      
-        <p className="text-center text-gray-500 mb-8">
+        <p className="text-center text-gray-500 ">
           Enter your credentials to access your account
         </p>
        
@@ -40,7 +65,6 @@ function Login() {
         {/* login form */}
         <form onSubmit={handleSubmit}>
           <Input
-          className="mb-8"
             label="Email address"
             type="email"
             id="email"
@@ -48,11 +72,14 @@ function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <div className="flex justify-end">
-            <span className="text-sm text-gray-600">
-                <a href="#" className="text-blue-600 hover:underline">Forgot password</a>
-            </span>
+
+          <div className="flex justify-end text-sm">
+            <a href="#" className="text-blue-600 hover:underline">
+              Forgot password?
+            </a>
           </div>
+
+
           <Input
           className="mb-8"
             label="Password"
@@ -77,49 +104,10 @@ function Login() {
       </form>
     
 
-            {/*  */}
-      <div className="flex items-center my-4">
-       <div className="flex-grow border-t border-gray-300"></div>
-        <span>or</span>
-        <div className="flex-grow border-t border-gray-300"></div>
-      </div>
-
-               {/* sign up with social media */}  
-        <span className="text-center text-gray-500">
-            <a href="#" className="text-blue-600 text-sm hover:underline ">
-            </a>
-        </span> 
     </div>
   );
 }
 
- function SocialMedia(){
-          return(
-            <div className="flex justify-center gap-10 mt-10">
-  
-            <button className="bg-white text-black px-3 py-1 rounded-[20px] border border-gray-300 flex items-center gap-3 hover:bg-[#3A5B22] transition duration-200 hover:text-white">
-                <FcGoogle size={24} />
-                <span>Sign up with Google</span>
-            </button>
+ 
 
-            <button className="bg-white text-black px-3 py-1 rounded-[20px] border border-gray-300 flex items-center gap-3 hover:bg-[#3A5B22] transition duration-200 hover:text-white">
-                <FaApple size={24} />
-                <span>Sign up with Apple</span>
-            </button>
-
-        </div>
-        );
-      }
-
-      function SignUp(){
-        return(
-          <div className="mt-6 flex justify-center">
-            <span className="text-center text-gray-500">
-                Don't have an account? <a href="#" className="text-blue-600  text-1xl font-bold hover:underline ">
-                    Sign up
-                </a>
-            </span>
-        </div>
-          
-        );
-      }
+      
