@@ -21,3 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# nested server app
+/server/node_modules
+/server/.env
+/server/.env.test
+/server/build
+/server/dist
