@@ -6,7 +6,7 @@ import crypto from 'crypto';
 
 
 const normalizeEmail = (email) => email.toLowerCase().trim();
-
+const cleanPassword = (password) => password.trim();
 
 
 // register user
@@ -128,6 +128,11 @@ export const forgotPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
 
+  // validate input
+    if (!cleanPassword(password)) {
+      return res.status(400).json({ message: 'Password is required' });
+    }
+
   try {
     // hash incoming token
     const hashedToken = crypto
@@ -159,5 +164,34 @@ export const forgotPassword = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error resetting password" });
+  }
+};
+
+
+// logout user
+export const logoutUser = async (req, res) => {
+
+  res.status(200).json({ message: 'Logout successful' });
+}
+
+//delete user
+export const deleteUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await User.deleteOne({ _id: userId });
+
+    res.status(200).json({
+      message: "Account deleted successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };

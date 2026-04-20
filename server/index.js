@@ -6,11 +6,13 @@ import authRoutes from './routers/authRoutes.js';
 
 
 
-// Connect to MongoDB
-connectDB();
 
 // Configuring the environment variables
 dotenv.config();
+
+
+// Connect to MongoDB
+connectDB();
 
 
 // Initializing the express app
@@ -27,7 +29,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/auth', authRoutes);
 
 //test
-app.get('/', (req, res) => {
+app.get('/test', (req, res) => {
+  console.log('🔥 TEST ROUTE HIT');
   res.send('API is running!............');
 });
 
