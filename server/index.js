@@ -7,7 +7,7 @@ import authRoutes from './routers/authRoutes.js';
 
 
 // Connect to MongoDB
-// connectDB();
+connectDB();
 
 // Configuring the environment variables
 dotenv.config();
