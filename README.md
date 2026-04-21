@@ -68,3 +68,97 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+BASE URL
+http://localhost:3001/api/auth
+
+---
+
+AUTH ENDPOINTS
+
+1. REGISTER USER
+   POST /register
+
+Body:
+{
+"email": "[test@gmail.com](mailto:test@gmail.com)",
+"password": "123456"
+}
+
+---
+
+2. LOGIN USER
+   POST /login
+
+Body:
+{
+"email": "[test@gmail.com](mailto:test@gmail.com)",
+"password": "123456"
+}
+
+Response:
+{
+"token": "YOUR_JWT_TOKEN"
+}
+
+---
+
+3. FORGOT PASSWORD
+   POST /forgot-password
+
+Body:
+{
+"email": "[test@gmail.com](mailto:test@gmail.com)"
+}
+
+Response:
+{
+"resetURL": "http://localhost:3000/reset-password/<token>"
+}
+
+---
+
+4. RESET PASSWORD
+   PUT /reset-password/:token
+
+Example:
+PUT /reset-password/abc123token
+
+Body:
+{
+"password": "newpassword123"
+}
+
+---
+
+5. LOGOUT (PROTECTED)
+   POST /logout
+
+Headers:
+Authorization: Bearer YOUR_TOKEN
+
+---
+
+6. DELETE ACCOUNT (PROTECTED)
+   DELETE /delete
+
+Headers:
+Authorization: Bearer YOUR_TOKEN
+
+---
+
+NOTES
+
+* Replace YOUR_TOKEN with your JWT from login
+* Protected routes require Authorization header
+* No body needed for logout and delete
+* Token format must be:
+  Authorization: Bearer <token>
+
+---
+
+FLOW
+
+Register → Login → Save Token → Use Token → Logout/Delete

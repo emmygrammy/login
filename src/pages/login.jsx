@@ -5,6 +5,7 @@ import SocialMedia from '../components/SocialMedia';
 import AuthLink from '../components/AuthLink';
 import Divider from '../components/Divider';
 import LoginImage from '../components/LoginImage';
+import { loginUser } from '../services/api';
 
 
 
@@ -89,6 +90,11 @@ function LoginForm() {
     setEmail('');
     setPassword('');
   }
+
+  const handleLogin = async () => {
+  const data = await loginUser(email, password);
+  localStorage.setItem("token", data.token);
+  };
   
   return (
     <div className="w-full max-w-md mx-auto space-y-6">
@@ -151,7 +157,8 @@ function LoginForm() {
       
 
         <Button
-        className="w-full" type="submit">
+        onClick={handleLogin}
+        className="w-full" type="button">
             Login
         </Button>
       </form>
