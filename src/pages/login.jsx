@@ -6,6 +6,11 @@ import AuthLink from '../components/AuthLink';
 import Divider from '../components/Divider';
 import LoginImage from '../components/LoginImage';
 import { loginUser } from '../services/api';
+import { useNavigate } from 'react-router-dom';
+import Dashboard from '../pages/dashboard';
+import Spinner from '../components/spinner';
+
+
 
 
 
@@ -14,6 +19,7 @@ import { loginUser } from '../services/api';
 
 
 export default function LoginPage(){
+  
 
   return(
    <div className="flex flex-col md:flex-row min-h-screen">
@@ -42,12 +48,17 @@ export default function LoginPage(){
 }
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  
 
-        const validate = () => {
+
+
+  const validate = () => {
           const newErrors = {};
 
           if (!email) {
@@ -78,26 +89,61 @@ function LoginForm() {
         }   
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const errors = validate();
-    if (Object.keys(errors).length > 0) {
-      setErrors(errors);
-      return;
-    }
-    setErrors({});
-    console.log(email, password);
-    setEmail('');
-    setPassword('');
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const errors = validate();
+  //   if (Object.keys(errors).length > 0) {
+  //     setErrors(errors);
+  //     return;
+  //   }
+  //   setErrors({});
+  //   console.log(email, password);
+  //   setEmail('');
+  //   setPassword('');
+  // }
+
+  const handleLogin = async (e) => {
+  e.preventDefault();
+  console.log("LOGIN CLICKED"); // 👈 ADD THIS
+
+  const errors = validate();
+
+  if (Object.keys(errors).length > 0) {
+    setErrors(errors);
+    return;
   }
 
-  const handleLogin = async () => {
-  const data = await loginUser(email, password);
-  localStorage.setItem("token", data.token);
-  };
+  try {
+    setLoading(true);
+    setErrors({});
+
+    const data = await loginUser({ email, password });
+
+    if (!data.token) {
+      throw new Error("Invalid login credentials");
+    }
+
+    localStorage.setItem("token", data.token);
+
+    navigate("/dashboard");
+
+  } catch (err) {
+    setErrors({ error: err.message });
+  } finally {
+    setLoading(false);
+  }
+};
+ 
   
   return (
     <div className="w-full max-w-md mx-auto space-y-6">
+      {/* error message */}
+      <div className="text-center text-red-500">
+        {errors.error}
+      </div>
+
+
+
       <h1 className="text-2xl font-bold text-center text-gray-800 ">
         Welcome back!
         </h1>
@@ -109,13 +155,14 @@ function LoginForm() {
        
 
         {/* login form */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <Input
             label="Email address"
             type="email"
             id="email"
             placeholder="email address"
             value={email}
+            disabled={loading}
             onChange={(e) => {
             setEmail(e.target.value);
             setErrors((prev) => ({ ...prev, email: '' }));
@@ -138,6 +185,7 @@ function LoginForm() {
             placeholder="password"
             name="password"
             value={password}
+            disabled={loading}
             onChange={(e) => {
             setPassword(e.target.value);
             setErrors((prev) => ({ ...prev, password: '' }));
@@ -156,11 +204,20 @@ function LoginForm() {
         </label>
       
 
-        <Button
-        onClick={handleLogin}
-        className="w-full" type="button">
-            Login
-        </Button>
+      <Button
+          disabled={loading}
+          className="w-full"
+          type="submit"
+                >
+                  {loading ? (
+                    <span className="flex items-center gap-2">
+                      <Spinner />
+                      Logging in...
+                    </span>
+                  ) : (
+                    "Login"
+                  )}
+      </Button>
       </form>
     
 
