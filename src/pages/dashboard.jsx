@@ -9,6 +9,7 @@ export default function Dashboard() {
       <p>Welcome to your dashboard</p>
       <Button>Logout</Button>
       <Button>Profile</Button>
+      <h1> the provee</h1>
     </div>
   );
 }
