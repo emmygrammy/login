@@ -5,9 +5,13 @@ import LoginPage from './pages/login';
 
 
 function App() {
+   const {user} = useAuth();
+
   return (
     <div className="App">
-      <LoginPage/>
+      {user ? <RegisterPage /> : <LoginPage />}
+     
+  
      
     </div>
   );
